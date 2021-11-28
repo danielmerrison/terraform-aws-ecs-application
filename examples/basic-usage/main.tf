@@ -9,7 +9,7 @@ terraform {
 }
 
 provider "aws" {
-  region = "us-east-2"
+  region = "eu-west-2"
 }
 
 module "vpc" {
@@ -18,7 +18,7 @@ module "vpc" {
   name    = var.name
   cidr    = "10.0.0.0/16"
 
-  azs             = ["eu-west-1a", "eu-west-1b", "eu-west-1c"]
+  azs             = ["eu-west-2a", "eu-west-2b", "eu-west-2c"]
   private_subnets = ["10.0.1.0/24", "10.0.2.0/24", "10.0.3.0/24"]
   public_subnets  = ["10.0.101.0/24", "10.0.102.0/24", "10.0.103.0/24"]
 
@@ -34,8 +34,8 @@ module "vpc" {
 module "ecs_cluster" {
   source = "../../."
 
-  application_name = var.name
-  # vpc_id             = module.vpc.vpc_id
+  application_name   = var.name
+  vpc_id             = module.vpc.vpc_id
   private_subnet_ids = module.vpc.private_subnets
-  # public_subnet_ids  = module.vpc.public_subnets
+  public_subnet_ids  = module.vpc.public_subnets
 }

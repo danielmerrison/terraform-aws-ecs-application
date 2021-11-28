@@ -31,16 +31,3 @@ resource "aws_ecs_cluster" "this" {
     value = "enabled"
   }
 }
-
-resource "aws_lb" "this" {
-  name               = var.application_name
-  internal           = true
-  load_balancer_type = "application"
-  subnets            = var.private_subnet_ids
-  access_logs {
-    bucket  = module.log_bucket.id
-    enabled = true
-    prefix  = join("-", [var.application_name, "alb", "internal"])
-  }
-
-}
